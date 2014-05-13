@@ -43,7 +43,7 @@ protected:
 };
 
 
-/// A class for the IMAGE message type. 
+/// A class for the IMAGE message type.
 /// The IMAGE format supports 2D or 3D images with metric information including
 /// image matrix size, voxel size, coordinate system type, position, and orientation.
 /// The body section of the IMAGE data consists of two parts: image header to transfer
@@ -81,7 +81,7 @@ public:
     ENDIAN_LITTLE=2
   };
 
-  /// Pixel data type either scalar or vector. 
+  /// Pixel data type either scalar or vector.
   enum {
     DTYPE_SCALAR = 1,
     DTYPE_VECTOR = 3
@@ -117,7 +117,7 @@ public:
 
   /// Gets image dimensions as the numbers of pixels in i, j and k directions.
   void GetDimensions(int &i, int &j, int &k);
-  
+
   /// Sets sub-volume dimensions and offset by arrays of the dimensions and the offset.
   /// SetSubVolume() should be called after calling SetDiemensions(), since SetDimensions()
   /// reset the subvolume parameters automatically. Returns non-zero value if the subvolume
@@ -127,7 +127,7 @@ public:
   /// Sets sub-volume dimensions and offset by the dimensions and the offset in i, j and k
   /// directions. SetSubVolume() should be called after calling SetDiemensions(),
   /// since SetDimensions() reset the subvolume parameters automatically.
-  /// Returns non-zero value if the subvolume is successfully specified. 
+  /// Returns non-zero value if the subvolume is successfully specified.
   /// Returns zero, if invalid subvolume is specified.
   int SetSubVolume(int dimi, int dimj, int dimk, int offi, int offj, int offk);
 
@@ -259,10 +259,13 @@ public:
   /// Gets a pointer to the scalar data.
   void* GetScalarPointer();
 
+  /// Sets a pointer to the scalar data
+  void  SetScalarPointer(unsigned char *data);
+
 protected:
   ImageMessage();
   ~ImageMessage();
-  
+
 protected:
 
   virtual int  GetBodyPackSize();
@@ -293,7 +296,7 @@ protected:
 
   /// A variable for the scalar type of the voxels.
   int    scalarType;
-  
+
   /// A variable for the scalar type of the voxels.
   int    coordinate;
 

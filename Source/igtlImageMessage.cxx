@@ -56,7 +56,7 @@ ImageMessage::ImageMessage():
   ScalarSizeTable[1] = 0;
   ScalarSizeTable[2] = sizeof(igtlInt8);    // TYPE_INT8
   ScalarSizeTable[3] = sizeof(igtlUint8);   // TYPE_UINT8
-  ScalarSizeTable[4] = sizeof(igtlInt16);   // TYPE_INT16 
+  ScalarSizeTable[4] = sizeof(igtlInt16);   // TYPE_INT16
   ScalarSizeTable[5] = sizeof(igtlUint16);  // TYPE_UINT16
   ScalarSizeTable[6] = sizeof(igtlInt32);   // TYPE_INT32
   ScalarSizeTable[7] = sizeof(igtlUint32);  // TYPE_UINT32
@@ -205,7 +205,7 @@ void ImageMessage::GetSpacing(float &si, float &sj, float &sk)
   sj = spacing[1];
   sk = spacing[2];
 }
-  
+
 void ImageMessage::SetOrigin(float p[3])
 {
   matrix[0][3] = p[0];
@@ -344,8 +344,14 @@ void ImageMessage::AllocateScalars()
 
 void* ImageMessage::GetScalarPointer()
 {
-  return (void*)m_Image;
+  return reinterpret_cast<void*>(m_Image);
 }
+
+void ImageMessage::SetScalarPointer(unsigned char* data)
+{
+    m_Image = data;
+}
+
 
 int ImageMessage::GetBodyPackSize()
 {
@@ -445,12 +451,12 @@ int ImageMessage::UnpackBody()
 
       m_ImageHeader = m_Body;
       m_Image       = &m_ImageHeader[IGTL_IMAGE_HEADER_SIZE];
-      
+
       return 1;
     }
   else
     {
-      // Incompatible version. 
+      // Incompatible version.
       return 0;
     }
 }

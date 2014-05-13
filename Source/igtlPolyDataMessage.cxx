@@ -19,7 +19,7 @@
 #include "igtl_header.h"
 #include "igtl_polydata.h"
 
-// Disable warning C4996 (strncpy() may be unsafe) in Windows. 
+// Disable warning C4996 (strncpy() may be unsafe) in Windows.
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <string.h>
@@ -55,12 +55,12 @@ void PolyDataPointArray::SetNumberOfPoints(int n)
     iter->resize(3);
     }
 }
-  
+
 int PolyDataPointArray::GetNumberOfPoints()
 {
   return this->m_Data.size();
 }
-  
+
 int PolyDataPointArray::SetPoint(unsigned int id, igtlFloat32 * point)
 {
   if (id >= this->m_Data.size())
@@ -73,7 +73,7 @@ int PolyDataPointArray::SetPoint(unsigned int id, igtlFloat32 * point)
   dst[2] = point[2];
   return 1;
 }
-  
+
 int PolyDataPointArray::SetPoint(unsigned int id, igtlFloat32 x, igtlFloat32 y, igtlFloat32 z)
 {
   if (id >= this->m_Data.size())
@@ -86,7 +86,7 @@ int PolyDataPointArray::SetPoint(unsigned int id, igtlFloat32 x, igtlFloat32 y, 
   dst[2] = z;
   return 1;
 }
-  
+
 int PolyDataPointArray::AddPoint(igtlFloat32 * point)
 {
   Point newPoint;
@@ -95,10 +95,10 @@ int PolyDataPointArray::AddPoint(igtlFloat32 * point)
   newPoint[1] = point[1];
   newPoint[2] = point[2];
   this->m_Data.push_back(newPoint);
-  
+
   return 1;
 }
-  
+
 int PolyDataPointArray::AddPoint(igtlFloat32 x, igtlFloat32 y, igtlFloat32 z)
 {
   Point newPoint;
@@ -107,10 +107,10 @@ int PolyDataPointArray::AddPoint(igtlFloat32 x, igtlFloat32 y, igtlFloat32 z)
   newPoint[1] = y;
   newPoint[2] = z;
   this->m_Data.push_back(newPoint);
-  
+
   return 1;
 }
-  
+
 int PolyDataPointArray::GetPoint(unsigned int id, igtlFloat32 & x, igtlFloat32 & y, igtlFloat32 & z)
 {
   if (id >= this->m_Data.size())
@@ -153,12 +153,12 @@ void PolyDataCellArray::Clear()
 {
   this->m_Data.clear();
 }
-  
+
 igtlUint32 PolyDataCellArray::GetNumberOfCells()
 {
   return this->m_Data.size();
 }
-  
+
 void PolyDataCellArray::AddCell(int n, igtlUint32 * cell)
 {
   std::list<igtlUint32> newCell;
@@ -185,7 +185,7 @@ igtlUint32 PolyDataCellArray::GetCellSize(unsigned int id)
     }
   return this->m_Data[id].size();
 }
-  
+
 igtlUint32 PolyDataCellArray::GetTotalSize()
 {
   igtlUint32 size;
@@ -208,7 +208,7 @@ int PolyDataCellArray::GetCell(unsigned int id, igtlUint32 * cell)
     }
   std::list<igtlUint32> & src = this->m_Data[id];
   std::list<igtlUint32>::iterator iter;
-  
+
   for (iter = src.begin(); iter != src.end(); iter ++)
     {
     *cell = *iter;
@@ -229,7 +229,7 @@ int PolyDataCellArray::GetCell(unsigned int id, std::list<igtlUint32>& cell)
 
   std::list<igtlUint32>::iterator srcIter;
   std::list<igtlUint32>::iterator dstIter = cell.begin();
-  
+
   for (srcIter = src.begin(); srcIter != src.end(); srcIter ++)
     {
     *dstIter = *srcIter;
@@ -338,7 +338,7 @@ igtlUint32 PolyDataAttribute::SetSize(igtlUint32 size)
   return this->m_Size;
 }
 
-igtlUint32 PolyDataAttribute::GetSize() 
+igtlUint32 PolyDataAttribute::GetSize()
 {
   return this->m_Size;
 }
@@ -468,7 +468,7 @@ void IGTLCommon_EXPORT SetPolyDataInfo(igtl_polydata_info * info, PolyDataMessag
     info->header.nlines = 0;
     info->header.size_lines = 0;
     }
-    
+
   if (pdm->GetPolygons())
     {
     info->header.npolygons = pdm->GetPolygons()->GetNumberOfCells();
@@ -490,7 +490,7 @@ void IGTLCommon_EXPORT SetPolyDataInfo(igtl_polydata_info * info, PolyDataMessag
     info->header.ntriangle_strips = 0;
     info->header.size_triangle_strips = 0;
     }
-    
+
   if (pdm->GetPolygons())
     {
     info->header.npolygons = pdm->GetPolygons()->GetNumberOfCells();
@@ -575,7 +575,7 @@ int PolyDataMessage::GetBodyPackSize()
   // TODO: The current implementation of GetBodyPackSize() allocates
   // igtl_polydata_info and the array of igtl_polydata_attribute to calculate
   // the size of pack. However, this approach is not efficent because
-  // it causes unnecessary memory allocation. 
+  // it causes unnecessary memory allocation.
 
   int dataSize;
   igtl_polydata_info info;
@@ -588,7 +588,7 @@ int PolyDataMessage::GetBodyPackSize()
   // cell data, which is not neccessary to calculate polydata size.
 
   info.attributes = new igtl_polydata_attribute[info.header.nattributes];
-  
+
   if (!info.attributes)
     {
     //ERROR
@@ -608,9 +608,9 @@ int PolyDataMessage::GetBodyPackSize()
     }
 
   SetPolyDataInfoAttribute(&info, this);
-  
+
   dataSize = igtl_polydata_get_size(&info, IGTL_TYPE_PREFIX_NONE);
-  
+
   UnSetPolyDataInfoAttribute(&info);
 
   //delete [] (info.attributes);
@@ -721,11 +721,11 @@ int PolyDataMessage::UnpackBody()
 
   igtl_polydata_init_info(&info);
 
-  if (igtl_polydata_unpack(IGTL_TYPE_PREFIX_NONE, (void*)this->m_Body, &info, this->GetPackBodySize()) == 0)  
+  if (igtl_polydata_unpack(IGTL_TYPE_PREFIX_NONE, (void*)this->m_Body, &info, this->GetPackBodySize()) == 0)
     {
     return 0;
     }
-  
+
   // Points
   if (this->m_Points.IsNull())
     {
@@ -802,12 +802,13 @@ int PolyDataMessage::UnpackBody()
     this->m_TriangleStrips->AddCell(n, ptr);
     ptr += n;
     }
-  
+
   // Attributes
   this->m_Attributes.clear();
+  igtl_polydata_attribute * attr = info.attributes;
   for (unsigned int i = 0; i < info.header.nattributes; i ++)
     {
-    igtl_polydata_attribute * attr = info.attributes;
+
 
     PolyDataAttribute::Pointer pda = PolyDataAttribute::New();
     if (pda.IsNotNull())
