@@ -809,7 +809,6 @@ int PolyDataMessage::UnpackBody()
   for (unsigned int i = 0; i < info.header.nattributes; i ++)
     {
 
-
     PolyDataAttribute::Pointer pda = PolyDataAttribute::New();
     if (pda.IsNotNull())
       {
